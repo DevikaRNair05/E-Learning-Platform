@@ -1,0 +1,26 @@
+body {
+    background: #f6f7fb;
+    font-family: 'Poppins', sans-serif;
+}
+.card {
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+}
+.btn-primary, .btn-success {
+    border-radius: 12px;
+    font-weight: 600;
+}
+.chapter-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 2rem 0 1rem 0;
+}
+input, textarea, select {
+    border-radius: 10px !important;
+}
+.navbar {
+    border-radius: 0 0 20px 20px;
+}
+.footer {
+    border-radius: 20px 20px 0 0;
+}

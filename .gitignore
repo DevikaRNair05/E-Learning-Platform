@@ -1,0 +1,23 @@
+# Ignore configuration and sensitive files
+config.php
+includes/db.php
+
+# Ignore environment variable files
+.env
+.env.example
+
+# Ignore vendor directory (optional, if you want to exclude dependencies)
+# vendor/
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE/project files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Ignore log files
+*.log
