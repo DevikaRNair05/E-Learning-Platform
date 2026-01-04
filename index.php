@@ -77,15 +77,63 @@ if (isset($_SESSION['user_id'])) {
     <title>Online School - Login</title>
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+        }
+        .login-card {
+            border-radius: 32px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            background: #fff;
+            padding: 2.5rem 2rem 2rem 2rem;
+            max-width: 380px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .login-card img {
+            width: 140px;
+            max-width: 100%;
+            margin-bottom: 1.5rem;
+        }
+        .login-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #5f2eea;
+            margin-bottom: 1rem;
+        }
+        .login-desc {
+            color: #555;
+            font-size: 1.08rem;
+            margin-bottom: 2rem;
+        }
+        .btn-login {
+            background: linear-gradient(90deg, #7f53ac 0%, #647dee 100%);
+            color: #fff;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 0.75rem 0;
+            width: 100%;
+            box-shadow: 0 4px 16px 0 rgba(127, 83, 172, 0.10);
+            transition: background 0.2s;
+        }
+        .btn-login:hover {
+            background: linear-gradient(90deg, #647dee 0%, #7f53ac 100%);
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
-    <?php include 'includes/header.php'; ?>
-    <div class="container d-flex flex-column align-items-center justify-content-center min-vh-100">
-        <div class="card p-5 shadow-lg text-center" style="max-width:400px;">
-            <img src="assets/img/online_school.svg" alt="Online School" class="mb-4" style="width:120px;">
-            <h2 class="mb-3">Online School</h2>
-            <p class="mb-4">Home study during the pandemic, lots of learning. Lots of professional teachers, and easy to understand.</p>
-            <a href="<?php echo $google_oauth_url; ?>" class="btn btn-primary btn-block">Login with Google</a>
+    <?php /* include 'includes/header.php'; */ ?>
+    <div class="d-flex flex-column align-items-center justify-content-center min-vh-100">
+        <div class="login-card">
+            <img src="assets/img/online_school.jpg" alt="Online School">
+            <div class="login-title">Discover your next skill</div>
+            <div class="login-desc">Learn anything you want! Discover the things you want, try them, and grow with them.</div>
+            <a href="<?php echo $google_oauth_url; ?>" class="btn btn-login">Login with Google</a>
         </div>
     </div>
     <?php include 'includes/footer.php'; ?>

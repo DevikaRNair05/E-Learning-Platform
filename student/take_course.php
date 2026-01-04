@@ -17,10 +17,18 @@ if (!$course) {
     exit();
 }
 
+// Fetch chapters
 $chapters = $conn->query("SELECT * FROM chapters WHERE course_id = $course_id ORDER BY `order`");
 $chapter_list = [];
 while ($row = $chapters->fetch_assoc()) {
     $chapter_list[] = $row;
+}
+// Fetch completed chapters for this user
+$user_id = $_SESSION['user_id'];
+$completed_chapters = [];
+$result = $conn->query("SELECT chapter_id FROM feedback WHERE user_id = $user_id AND completed = 1");
+while ($row = $result->fetch_assoc()) {
+    $completed_chapters[] = $row['chapter_id'];
 }
 $chapter_id = isset($_GET['chapter_id']) ? intval($_GET['chapter_id']) : (count($chapter_list) ? $chapter_list[0]['id'] : 0);
 $current_chapter = null;
@@ -39,6 +47,9 @@ foreach ($chapter_list as $ch) {
                 <?php foreach ($chapter_list as $ch): ?>
                     <a href="take_course.php?course_id=<?php echo $course_id; ?>&chapter_id=<?php echo $ch['id']; ?>" class="list-group-item list-group-item-action<?php if ($ch['id'] == $chapter_id) echo ' active'; ?>">
                         <?php echo htmlspecialchars($ch['title']); ?>
+                        <?php if (in_array($ch['id'], $completed_chapters)): ?>
+                            <span style="color:green; font-size:1.2em; margin-left:8px;" title="Completed">&#10003;</span>
+                        <?php endif; ?>
                     </a>
                 <?php endforeach; ?>
             </div>

@@ -3,10 +3,25 @@ require_once '../includes/auth.php';
 require_once '../includes/header.php';
 require_once '../includes/db.php';
 
-$courses = $conn->query("SELECT * FROM courses");
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+if ($search !== '') {
+    $search = strtolower($search);
+    $stmt = $conn->prepare("SELECT * FROM courses WHERE LOWER(title) LIKE CONCAT('%', ?, '%') OR LOWER(description) LIKE CONCAT('%', ?, '%')");
+    $stmt->bind_param('ss', $search, $search);
+    $stmt->execute();
+    $courses = $stmt->get_result();
+} else {
+    $courses = $conn->query("SELECT * FROM courses");
+}
 ?>
 <div class="container mt-5">
     <h2 class="text-center mb-4">Courses</h2>
+    <form class="mb-4" method="get" action="">
+        <div class="input-group" style="max-width:400px;margin:0 auto;">
+            <input type="text" class="form-control" name="search" placeholder="Search for courses..." value="<?php echo htmlspecialchars($search); ?>">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
     <div class="row">
         <?php if ($courses && $courses->num_rows > 0): ?>
             <?php while ($course = $courses->fetch_assoc()): ?>
@@ -24,7 +39,7 @@ $courses = $conn->query("SELECT * FROM courses");
                 </div>
             <?php endwhile; ?>
         <?php else: ?>
-            <div class="col-12"><p>No courses available.</p></div>
+            <div class="col-12"><p class="text-danger text-center fw-bold">Course not available.</p></div>
         <?php endif; ?>
     </div>
 </div>

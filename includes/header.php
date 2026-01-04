@@ -19,7 +19,7 @@ $role = $_SESSION['role'] ?? '';
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="/dashboard.php">Online School</a>
+        <a class="navbar-brand fw-bold" href="/dashboard.php" style="visibility:hidden;">&nbsp;</a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
                 <?php if ($role == 'admin'): ?>

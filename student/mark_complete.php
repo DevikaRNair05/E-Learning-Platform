@@ -1,6 +1,9 @@
 <?php
 require_once '../includes/auth.php';
 require_once '../includes/db.php';
+// Enable error reporting for debugging
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
 $user_id = $_SESSION['user_id'];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $chapter_id = intval($_POST['chapter_id']);
@@ -15,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($db_course_id)) {
         $course_id = $db_course_id;
     }
-    // Mark as complete in feedback table
+    // Mark as complete in feedback table (only update/insert 'completed' field)
     $stmt = $conn->prepare("SELECT id FROM feedback WHERE user_id = ? AND chapter_id = ?");
     $stmt->bind_param('ii', $user_id, $chapter_id);
     $stmt->execute();
