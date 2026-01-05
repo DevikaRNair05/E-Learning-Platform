@@ -62,19 +62,6 @@ foreach ($chapter_list as $ch) {
                     <?php if (!empty($current_chapter['video_url'])): ?>
                         <div class="mb-3"><a href="<?php echo htmlspecialchars($current_chapter['video_url']); ?>" target="_blank" class="btn btn-outline-primary">Watch Video</a></div>
                     <?php endif; ?>
-                    <form method="post" action="feedback.php" class="mb-3">
-                        <input type="hidden" name="chapter_id" value="<?php echo $current_chapter['id']; ?>">
-                        <label>Rate this chapter:</label>
-                        <select name="rating" required class="form-select mb-2">
-                            <option value="5">⭐⭐⭐⭐⭐</option>
-                            <option value="4">⭐⭐⭐⭐</option>
-                            <option value="3">⭐⭐⭐</option>
-                            <option value="2">⭐⭐</option>
-                            <option value="1">⭐</option>
-                        </select>
-                        <textarea name="comment" class="form-control mb-2" placeholder="Your feedback..." required></textarea>
-                        <button type="submit" class="btn btn-primary w-100">Submit Feedback</button>
-                    </form>
                     <form method="post" action="mark_complete.php">
                         <input type="hidden" name="chapter_id" value="<?php echo $current_chapter['id']; ?>">
                         <input type="hidden" name="course_id" value="<?php echo $course_id; ?>">
@@ -84,6 +71,44 @@ foreach ($chapter_list as $ch) {
             <?php else: ?>
                 <div class="alert alert-info">No chapters available for this course.</div>
             <?php endif; ?>
+
+            <?php
+            // Show course feedback form if all chapters are completed
+            if (count($chapter_list) > 0 && count($completed_chapters) === count($chapter_list)) {
+                // Check if feedback already submitted for this course
+                $course_feedback_exists = false;
+                $stmt = $conn->prepare("SELECT id FROM feedback WHERE user_id = ? AND course_id = ? AND chapter_id IS NULL");
+                $stmt->bind_param('ii', $user_id, $course_id);
+                $stmt->execute();
+                $stmt->store_result();
+                if ($stmt->num_rows > 0) {
+                    $course_feedback_exists = true;
+                }
+                $stmt->close();
+                if (!$course_feedback_exists) {
+            ?>
+                <div class="card p-4 mb-4 mt-4">
+                    <h4 class="text-center">Course Feedback</h4>
+                    <form method="post" action="feedback.php">
+                        <input type="hidden" name="course_id" value="<?php echo $course_id; ?>">
+                        <label>Rate this course:</label>
+                        <select name="rating" required class="form-select mb-2">
+                            <option value="5">⭐⭐⭐⭐⭐</option>
+                            <option value="4">⭐⭐⭐⭐</option>
+                            <option value="3">⭐⭐⭐</option>
+                            <option value="2">⭐⭐</option>
+                            <option value="1">⭐</option>
+                        </select>
+                        <textarea name="comment" class="form-control mb-2" placeholder="Your feedback about the course..." required></textarea>
+                        <button type="submit" class="btn btn-primary w-100">Submit Course Feedback</button>
+                    </form>
+                </div>
+            <?php
+                } else {
+                    echo '<div class="alert alert-success mt-4">You have already submitted feedback for this course. Thank you!</div>';
+                }
+            }
+            ?>
         </div>
     </div>
 </div>
