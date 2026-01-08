@@ -5,5 +5,5 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 session_unset();
 session_destroy();
-header('Location: /ELearning/index.php');
+header('Location: /ELearning/home.php');
 exit();
